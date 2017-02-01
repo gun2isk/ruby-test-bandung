@@ -1,0 +1,28 @@
+h3 YOUR PROFILES
+
+= link_to 'Create new Profile', new_profile_path
+br
+br
+
+table
+  tr
+    td Name
+    td Backup Directories
+    td Exclusion Backup Directories
+    td
+
+  - @profiles.each do |profile|
+    tr
+      td = link_to profile.name, profile
+      td
+        ul
+          - profile.backup_dirs.each do |dir|
+            li = dir
+
+      td
+        ul
+          - profile.backup_exclusion_dirs.each do |dir|
+            li = dir
+
+      td
+        = link_to 'Delete', profile, method: :delete, data: {confirm: 'Are you sure?'}

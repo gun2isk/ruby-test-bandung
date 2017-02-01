@@ -1,0 +1,17 @@
+doctype html
+html
+  head
+    title Railsapp
+    = csrf_meta_tags
+    
+    = stylesheet_link_tag    'application', media: 'all'
+    = javascript_include_tag 'application'
+
+  body
+    - if user_signed_in?
+      header
+        = link_to 'Home', root_path
+        |&nbsp;&nbsp;&nbsp;
+        = link_to 'Your Profiles', profiles_path
+
+    = yield
