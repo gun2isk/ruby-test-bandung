@@ -23,6 +23,3 @@ table
         ul
           - profile.backup_exclusion_dirs.each do |dir|
             li = dir
-
-      td
-        = link_to 'Delete', profile, method: :delete, data: {confirm: 'Are you sure?'}

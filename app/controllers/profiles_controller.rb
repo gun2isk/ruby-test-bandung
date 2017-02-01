@@ -23,13 +23,7 @@ class ProfilesController < ApplicationController
   def show
     
   end
-
-  def destroy
-    @profile.destroy
-
-    redirect_to profiles_url
-  end
-
+  
   private
 
   def profile_params

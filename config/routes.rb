@@ -3,5 +3,9 @@ Rails.application.routes.draw do
   
   root to: 'home#index'
 
-  resources :profiles
+  resources :profiles do
+    resources :backups, only: [:index, :show] do
+      post :run, on: :collection
+    end
+  end
 end

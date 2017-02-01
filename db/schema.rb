@@ -10,10 +10,38 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170201074920) do
+ActiveRecord::Schema.define(version: 20170201081633) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "backup_files", force: :cascade do |t|
+    t.integer  "backup_id"
+    t.string   "kind"
+    t.string   "parent_dir"
+    t.string   "path"
+    t.string   "name"
+    t.string   "file_type"
+    t.integer  "file_size"
+    t.datetime "last_modified"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.string   "status"
+    t.index ["backup_id"], name: "index_backup_files_on_backup_id", using: :btree
+    t.index ["status"], name: "index_backup_files_on_status", using: :btree
+  end
+
+  create_table "backups", force: :cascade do |t|
+    t.integer  "profile_id"
+    t.integer  "version",             default: 0
+    t.datetime "backup_time"
+    t.integer  "file_count",          default: 0
+    t.integer  "new_file_count",      default: 0
+    t.integer  "modified_file_count", default: 0
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+    t.index ["profile_id"], name: "index_backups_on_profile_id", using: :btree
+  end
 
   create_table "profiles", force: :cascade do |t|
     t.integer  "user_id"
@@ -21,8 +49,9 @@ ActiveRecord::Schema.define(version: 20170201074920) do
     t.text     "backup_dirs"
     t.text     "backup_exclusion_dirs"
     t.datetime "last_backup"
-    t.datetime "created_at",            null: false
-    t.datetime "updated_at",            null: false
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
+    t.integer  "storage_size",          default: 0
     t.index ["user_id"], name: "index_profiles_on_user_id", using: :btree
   end
 
@@ -43,5 +72,7 @@ ActiveRecord::Schema.define(version: 20170201074920) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   end
 
+  add_foreign_key "backup_files", "backups"
+  add_foreign_key "backups", "profiles"
   add_foreign_key "profiles", "users"
 end
