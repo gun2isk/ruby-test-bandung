@@ -40,12 +40,7 @@ class Backup < ApplicationRecord
       backup_file.path = path.gsub(self.storage_path, '/')
       backup_file.parent_dir = File.dirname(backup_file.path)
       backup_file.name = File.basename(path)
-
-      if backup_file.is_file?
-        backup_file.file_type = MIME::Types.type_for(path).first.to_s
-        backup_file.file_size = File.size(path)
-        backup_file.last_modified = File.mtime(path)
-      end
+      backup_file.fetch_file_info if backup_file.is_file?
 
       backup_file.save
     end

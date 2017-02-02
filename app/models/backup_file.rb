@@ -1,3 +1,5 @@
+require 'mime/types'
+
 class BackupFile < ApplicationRecord
   KINDS = %w{directory file}
   STATUSES = %w{new changed unchanged}
@@ -25,6 +27,23 @@ class BackupFile < ApplicationRecord
 
   def is_file?
     return true if self.kind.eql?('file')
+  end
+
+  def restore_file(restore_id)
+    restore_file = BackupFile.find(restore_id)
+
+    `cp -f #{restore_file.storage_path} #{self.storage_path}`
+
+    self.fetch_file_info
+    self.save
+  end
+
+  def fetch_file_info
+    return if backup_file.is_directory?
+
+    self.file_type = MIME::Types.type_for(self.storage_path).first.to_s
+    self.file_size = File.size(self.storage_path)
+    self.last_modified = File.mtime(self.storage_path)
   end
 
   private

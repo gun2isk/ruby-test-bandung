@@ -10,6 +10,7 @@ Rails.application.routes.draw do
       member do
         post :download_file
         get :file_history
+        post :restore_file
         delete :destroy_file
       end
     end

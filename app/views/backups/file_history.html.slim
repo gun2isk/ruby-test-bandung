@@ -1,0 +1,40 @@
+.page-header
+  h1 File History
+
+.well
+  b = @file.path
+  br
+  br
+  = "Version : #{@file.backup.version}"
+  br
+  = "Type : #{@file.file_type}"
+  br
+  = "Size : #{@file.file_size} bytes"
+  br
+  = "Backup Date : #{@file.backup.created_at.strftime("%Y-%m-%d")}"
+  br
+  = "Backup Time : #{@file.backup.created_at.strftime("%H:%M")}"
+  br
+
+h3 History
+table.table
+  thead
+    th Name
+    th Version
+    th Type
+    th Size
+    th Modified Time
+    th Actions
+
+  tbody
+    - @history_files.each do |file|
+      - next if file.id.eql?(@file.id)
+
+      tr
+        td = file.name
+        td = file.backup.version_name
+        td = file.file_type
+        td = "#{file.file_size} bytes"
+        td = file.last_modified.strftime("%Y-%m-%d %H:%M")
+        td
+          = link_to 'Restore', restore_file_profile_backup_path(@profile, @backup, file_id: @file.id, restore_id: file.id), method: :post, data: {confirm: 'Are you sure want to restore the file to this version?'}, class: 'btn btn-primary'
