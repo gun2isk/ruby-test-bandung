@@ -1,17 +1,24 @@
 doctype html
-html
+html lang="en" 
   head
-    title Railsapp
+    title Dropsuite Test Bandung
+
     = csrf_meta_tags
-    
-    = stylesheet_link_tag    'application', media: 'all'
+
+    = stylesheet_link_tag    'application'
     = javascript_include_tag 'application'
 
   body
-    - if user_signed_in?
-      header
-        = link_to 'Home', root_path
-        |&nbsp;&nbsp;&nbsp;
-        = link_to 'Your Profiles', profiles_path
+    nav.navbar.navbar-inverse.navbar-fixed-top
+      .container
+        .navbar-header
+          = link_to 'Dropsuite Test', root_path, class: 'navbar-brand'
 
-    = yield
+        #navbar
+          .navbar-right
+            ul.nav.navbar-nav
+              li = link_to 'Your Profiles', profiles_path
+          
+        /! /.navbar-collapse
+    .container.container-body
+      = yield

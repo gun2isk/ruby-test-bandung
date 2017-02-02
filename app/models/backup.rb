@@ -67,6 +67,10 @@ class Backup < ApplicationRecord
     self.save
   end
 
+  def version_name
+    "Version #{self.version} - #{self.backup_time.strftime("%Y-%m-%d %H:%M")}"
+  end
+
   private
 
   def remove_storage

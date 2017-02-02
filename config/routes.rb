@@ -6,6 +6,12 @@ Rails.application.routes.draw do
   resources :profiles do
     resources :backups, only: [:index, :show] do
       post :run, on: :collection
+      
+      member do
+        post :download_file
+        get :file_history
+        delete :destroy_file
+      end
     end
   end
 end

@@ -21,7 +21,21 @@ class ProfilesController < ApplicationController
   end
 
   def show
-    
+    @parent_path = File.dirname(params[:path]) if params[:path] and not params[:path].eql?('/')
+
+    @backups = @profile.backups.order("version DESC")
+
+    if @backups.count > 0
+      @parent_dir_path = params[:path] || "/"
+
+      @backup = if params[:backup_id]
+        @backups.find(params[:backup_id])
+      else
+        @backups.first
+      end
+
+      @backup_files = @backup.files.where(parent_dir: @parent_dir_path).order(:kind)
+    end
   end
   
   private

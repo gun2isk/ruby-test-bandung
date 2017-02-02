@@ -1,10 +1,72 @@
-h1 Profile
+.page-header
+  h1 Backup Profile
 
-| Profile name :&nbsp;
-b = @profile.name
-br
+.well
+  | Profile name :&nbsp;
+  b = @profile.name
+  br
 
-br
-br
+- if not @backup
+  = link_to 'Run New Backup', run_profile_backups_path(@profile), method: :post, class: 'btn btn-primary pull-right'
+  br
+  br
+  br
 
-= link_to 'Run Backup', run_profile_backups_path(@profile), method: :post
+- if @backup
+  .well
+    | Select the backup histories :&nbsp;
+    = select_tag 'backup_version', options_from_collection_for_select(@backups, :id, :version_name, selected: @backup.id), data: {target_url: profile_path(@profile, path: @parent_dir_path)}
+    = link_to 'Run New Backup', run_profile_backups_path(@profile), method: :post, class: 'btn btn-primary pull-right'
+
+  .well
+    h3 Backup Detail
+    = "Version : #{@backup.version}"
+    br
+    = "Date : #{@backup.created_at.strftime("%Y-%m-%d")}"
+    br
+    = "Time : #{@backup.created_at.strftime("%H:%M")}"
+    br
+    = "New Files : #{@backup.new_file_count} - Modified Files : #{@backup.modified_file_count} "
+    = link_to 'See Details', profile_backup_path(@profile, @backup)
+
+  h4 Files
+
+  table.table
+    thead
+      tr
+        th Name
+        th Type
+        th Size
+        th Modified Time
+        th Actions
+    tbody
+    - if params[:path] and not params[:path].eql?('/')
+      tr
+        td
+          = link_to 'Go Up', profile_path(@profile, path: @parent_path, backup_id: @backup.id)
+          br
+          br
+        td
+        td
+        td
+        td
+
+    - @backup_files.each do |backup_file|
+      tr
+        - if backup_file.is_directory?
+          td = link_to backup_file.name, profile_path(@profile, path: backup_file.path, backup_id: @backup.id)
+          td Directory
+          td
+          td
+          td
+        - else
+          td = backup_file.name
+          td = backup_file.file_type
+          td = "#{backup_file.file_size} bytes"
+          td = backup_file.last_modified.strftime("%Y-%m-%d %H:%M")
+          td
+            = link_to 'Download', download_file_profile_backup_path(@profile, @backup, file_id: backup_file.id), class: 'btn btn-primary', method: :post
+            |&nbsp;&nbsp;
+            = link_to 'Check History', file_history_profile_backup_path(@profile, @backup, file_id: backup_file.id), class: 'btn btn-default'
+            |&nbsp;&nbsp;
+            = link_to 'Delete', destroy_file_profile_backup_path(@profile, @backup, file_id: backup_file.id), method: :delete, data: {confirm: 'Are you sure?'}, class: 'btn btn-danger'
