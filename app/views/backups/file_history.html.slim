@@ -37,4 +37,6 @@ table.table
         td = "#{file.file_size} bytes"
         td = file.last_modified.strftime("%Y-%m-%d %H:%M")
         td
+          = link_to 'Download', download_file_profile_backup_path(@profile, file.backup, file_id: file.id), class: 'btn btn-default', method: :post
+          |&nbsp;&nbsp;
           = link_to 'Restore', restore_file_profile_backup_path(@profile, @backup, file_id: @file.id, restore_id: file.id), method: :post, data: {confirm: 'Are you sure want to restore the file to this version?'}, class: 'btn btn-primary'

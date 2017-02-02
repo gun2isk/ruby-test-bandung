@@ -39,7 +39,7 @@ class BackupFile < ApplicationRecord
   end
 
   def fetch_file_info
-    return if backup_file.is_directory?
+    return if self.is_directory?
 
     self.file_type = MIME::Types.type_for(self.storage_path).first.to_s
     self.file_size = File.size(self.storage_path)
