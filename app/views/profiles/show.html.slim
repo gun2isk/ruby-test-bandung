@@ -26,8 +26,12 @@
     br
     = "Time : #{@backup.created_at.strftime("%H:%M")}"
     br
-    = "New Files : #{@backup.new_file_count} - Modified Files : #{@backup.modified_file_count} "
-    = link_to 'See Details', profile_backup_path(@profile, @backup)
+    = "New Files : #{@backup.new_file_count}"
+    br
+    = "Modified Files : #{@backup.modified_file_count}"
+    br
+    br
+    = link_to 'Display New and Modified Files', profile_backup_path(@profile, @backup), class: 'btn btn-default'
 
   h4 Files
 
@@ -38,6 +42,7 @@
         th Type
         th Size
         th Modified Time
+        th Status
         th Actions
     tbody
     - if params[:path] and not params[:path].eql?('/')
@@ -46,6 +51,7 @@
           = link_to 'Go Up', profile_path(@profile, path: @parent_path, backup_id: @backup.id)
           br
           br
+        td
         td
         td
         td
@@ -59,11 +65,19 @@
           td
           td
           td
+          td
         - else
           td = backup_file.name
           td = backup_file.file_type
           td = "#{backup_file.file_size} bytes"
           td = backup_file.last_modified.strftime("%Y-%m-%d %H:%M")
+          td
+            - if backup_file.status.eql?('new')
+              span.label.label-primary New
+            - elsif backup_file.status.eql?('changed')
+              span.label.label-success Modified
+            - elsif backup_file.status.eql?('unchanged')
+              span.label.label-default Unchanged
           td
             = link_to 'Download', download_file_profile_backup_path(@profile, @backup, file_id: backup_file.id), class: 'btn btn-primary', method: :post
             |&nbsp;&nbsp;

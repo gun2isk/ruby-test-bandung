@@ -1,7 +1,12 @@
 class BackupsController < ApplicationController
   before_action :authenticate_user!, :find_profile
-  before_action :find_backup, only: [:destroy_file, :download_file, :file_history, :restore_file]
+  before_action :find_backup, except: [:run]
   
+  def show
+    @new_files = @backup.files.new_files.order('created_at DESC')
+    @changed_files = @backup.files.changed_files.order('created_at DESC')
+  end
+
   def run
     @profile.run_backup
 

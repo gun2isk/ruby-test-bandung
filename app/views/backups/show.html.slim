@@ -1,0 +1,59 @@
+.page-header
+  h1 Backup Details
+
+.well
+  = "Version : #{@backup.version}"
+  br
+  = "Date : #{@backup.created_at.strftime("%Y-%m-%d")}"
+  br
+  = "Time : #{@backup.created_at.strftime("%H:%M")}"
+  br
+  = "New Files : #{@backup.new_file_count}"
+  br
+  = "Modified Files : #{@backup.modified_file_count}"
+
+ul.nav.nav-tabs#backup-detail-tabs
+  li.active
+    = link_to "New Files (#{@new_files.count})", '#new-files', role: "tab", data: {toggle: "tab"}, "aria-controls" => 'new-files'
+  li
+    = link_to "Modified Files (#{@changed_files.count})", '#changed-files', role: "tab", data: {toggle: "tab"}, "aria-controls" => 'modified-files'
+
+.tab-content
+  .tab-pane.active#new-files role="tabpanel"
+    table.table
+      thead
+        th Path
+        th Type
+        th Size
+        th Modified Time
+        th Actions
+
+      tbody
+        - @new_files.each do |file|
+          tr
+            td = file.path
+            td = file.backup.version_name
+            td = file.file_type
+            td = "#{file.file_size} bytes"
+            td = file.last_modified.strftime("%Y-%m-%d %H:%M")
+            td
+              = link_to 'Download', download_file_profile_backup_path(@profile, file.backup, file_id: file.id), class: 'btn btn-default', method: :post
+
+  .tab-pane#changed-files role="tabpanel"
+    table.table
+      thead
+        th Path
+        th Type
+        th Size
+        th Modified Time
+        th Actions
+
+      tbody
+        - @changed_files.each do |file|
+          tr
+            td = file.path
+            td = file.file_type
+            td = "#{file.file_size} bytes"
+            td = file.last_modified.strftime("%Y-%m-%d %H:%M")
+            td
+              = link_to 'Download', download_file_profile_backup_path(@profile, file.backup, file_id: file.id), class: 'btn btn-default', method: :post
