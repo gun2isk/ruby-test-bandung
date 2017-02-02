@@ -32,7 +32,6 @@ ul.nav.nav-tabs#backup-detail-tabs
         - @new_files.each do |file|
           tr
             td = file.path
-            td = file.backup.version_name
             td = file.file_type
             td = "#{file.file_size} bytes"
             td = file.last_modified.strftime("%Y-%m-%d %H:%M")
