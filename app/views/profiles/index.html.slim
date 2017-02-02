@@ -5,12 +5,17 @@
 br
 br
 
+.well
+  | Total Storage Usage : 
+  b = number_to_human_size(@profiles.sum(:storage_size))
+
 table.table.table-striped
   thead
     tr
       th Name
       th Backup Directories
       th Exclusion Backup Directories
+      th Storage Usage
       th
 
   tbody
@@ -26,3 +31,5 @@ table.table.table-striped
           ul
             - profile.backup_exclusion_dirs.each do |dir|
               li = dir
+
+        td = number_to_human_size(profile.storage_size)

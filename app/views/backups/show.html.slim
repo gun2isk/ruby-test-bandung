@@ -33,7 +33,7 @@ ul.nav.nav-tabs#backup-detail-tabs
           tr
             td = file.path
             td = file.file_type
-            td = "#{file.file_size} bytes"
+            td = number_to_human_size(file.file_size)
             td = file.last_modified.strftime("%Y-%m-%d %H:%M")
             td
               = link_to 'Download', download_file_profile_backup_path(@profile, file.backup, file_id: file.id), class: 'btn btn-default', method: :post
@@ -52,7 +52,7 @@ ul.nav.nav-tabs#backup-detail-tabs
           tr
             td = file.path
             td = file.file_type
-            td = "#{file.file_size} bytes"
+            td = number_to_human_size(file.file_size)
             td = file.last_modified.strftime("%Y-%m-%d %H:%M")
             td
               = link_to 'Download', download_file_profile_backup_path(@profile, file.backup, file_id: file.id), class: 'btn btn-default', method: :post

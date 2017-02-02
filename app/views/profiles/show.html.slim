@@ -69,7 +69,7 @@
         - else
           td = backup_file.name
           td = backup_file.file_type
-          td = "#{backup_file.file_size} bytes"
+          td = number_to_human_size(backup_file.file_size)
           td = backup_file.last_modified.strftime("%Y-%m-%d %H:%M")
           td
             - if backup_file.status.eql?('new')
