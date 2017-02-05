@@ -5,6 +5,8 @@
   | Profile name :&nbsp;
   b = @profile.name
   br
+  br
+  = link_to 'Display Charts Statistics', charts_profile_path(@profile), class: 'btn btn-default'
 
 - if not @backup
   = link_to 'Run New Backup', run_profile_backups_path(@profile), method: :post, class: 'btn btn-primary pull-right'
@@ -32,6 +34,8 @@
     br
     br
     = link_to 'Display New and Modified Files', profile_backup_path(@profile, @backup), class: 'btn btn-default'
+    
+
 
   h4 Files
 

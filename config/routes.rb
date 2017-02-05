@@ -4,6 +4,8 @@ Rails.application.routes.draw do
   root to: 'home#index'
 
   resources :profiles do
+    get :charts, on: :member
+    
     resources :backups, only: [:index, :show] do
       post :run, on: :collection
       
