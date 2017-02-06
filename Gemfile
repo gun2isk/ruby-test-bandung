@@ -60,3 +60,4 @@ gem 'devise'
 gem 'slim-rails'
 gem 'bootstrap-sass', '~> 3.3.6'
 gem 'lazy_high_charts'
+gem "recaptcha", require: "recaptcha/rails"

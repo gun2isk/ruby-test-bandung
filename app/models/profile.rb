@@ -11,6 +11,7 @@ class Profile < ApplicationRecord
   validates :name, uniqueness: {scope: :user_id}
 
   before_validation :set_dirs
+  after_create :run_backup
 
   def set_dirs
     self.backup_dirs = self.backup_dirs.to_s.split("\r\n") if not self.backup_dirs.is_a?(Array)

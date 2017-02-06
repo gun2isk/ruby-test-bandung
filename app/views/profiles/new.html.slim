@@ -1,25 +1,25 @@
 h1 New Profile
 
-- if @profile.errors.any?
-  ul
-    - @profile.errors.messages.each do |error|
-      li = error.join(' ')
+.col-md-3
+  - if @profile.errors.any?
+    ul
+      - @profile.errors.messages.each do |error|
+        li = error.join(' ')
 
-= form_for @profile do |f|
-  | Profile Name
-  br
-  = f.text_field :name
-  br
-  br
-  | Backup Directories
-  br
-  = f.text_area :backup_dirs
-  br
-  br
-  | Backup Exclusion Directories (please enter relative paths to the "backup directories", don't enter full paths)
-  br
-  = f.text_area :backup_exclusion_dirs
+  = form_for @profile do |f|
+    .form-group
+      label Profile Name
+      br
+      = f.text_field :name, class: 'form-control'
+    
+    .form-group
+      label Backup Directories
+      = f.text_area :backup_dirs, cols: 15, class: 'form-control'
+    
+    .form-group
+      label Backup Exclusion Directories
+      = f.text_area :backup_exclusion_dirs, class: 'form-control'
+      
+      p.help-block please enter relative paths to the "Backup Directories", don't enter full paths
 
-  br
-  br
-  = f.submit 'Create'
+    = f.submit 'Create Profile', class: 'btn btn-primary'
