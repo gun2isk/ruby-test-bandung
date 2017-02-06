@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170201081633) do
+ActiveRecord::Schema.define(version: 20170206090527) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,6 +27,8 @@ ActiveRecord::Schema.define(version: 20170201081633) do
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
     t.string   "status"
+    t.string   "gid"
+    t.string   "uid"
     t.index ["backup_id"], name: "index_backup_files_on_backup_id", using: :btree
     t.index ["status"], name: "index_backup_files_on_status", using: :btree
   end

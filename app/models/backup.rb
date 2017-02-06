@@ -40,6 +40,8 @@ class Backup < ApplicationRecord
       backup_file.path = path.gsub(self.storage_path, '/')
       backup_file.parent_dir = File.dirname(backup_file.path)
       backup_file.name = File.basename(path)
+      backup_file.gid = File.stat(path).gid
+      backup_file.uid = File.stat(path).uid
       backup_file.fetch_file_info if backup_file.is_file?
 
       backup_file.save

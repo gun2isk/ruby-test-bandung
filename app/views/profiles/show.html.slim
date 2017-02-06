@@ -46,6 +46,8 @@
         th Type
         th Size
         th Modified Time
+        th Group ID
+        th User ID
         th Status
         th Actions
     tbody
@@ -60,6 +62,8 @@
         td
         td
         td
+        td
+        td
 
     - @backup_files.each do |backup_file|
       tr
@@ -68,6 +72,8 @@
           td Directory
           td
           td
+          td = backup_file.gid
+          td = backup_file.uid
           td
           td
         - else
@@ -75,6 +81,8 @@
           td = backup_file.file_type
           td = number_to_human_size(backup_file.file_size)
           td = backup_file.last_modified.strftime("%Y-%m-%d %H:%M")
+          td = backup_file.gid
+          td = backup_file.uid
           td
             - if backup_file.status.eql?('new')
               span.label.label-primary New
