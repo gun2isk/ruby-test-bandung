@@ -5,7 +5,7 @@ class Users::SessionsController < Devise::SessionsController
 
   def check_captcha
     unless verify_recaptcha
-      self.resource = resource_class.new
+      self.resource = resource_class.new sign_in_params
       respond_with_navigational(resource) { render :new }
     end 
   end
