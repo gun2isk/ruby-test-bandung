@@ -15,7 +15,6 @@ class BackupFile < ApplicationRecord
 
   scope :new_files, -> { where(status: 'new') }
   scope :changed_files, -> { where(status: 'changed') }
-  scope :unchanged_files, -> { where(status: 'unchanged') }
 
   def storage_path
     "#{Backup::BASE_STORAGE_PATH}/profile-#{self.backup.profile_id}/v#{self.backup.version}#{self.path}"
@@ -45,8 +44,6 @@ class BackupFile < ApplicationRecord
     self.file_size = File.size(self.storage_path)
     self.last_modified = File.mtime(self.storage_path)
   end
-
-  private
 
   def remove_file
     `rm -f #{storage_path}`

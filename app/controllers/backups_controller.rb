@@ -30,7 +30,7 @@ class BackupsController < ApplicationController
 
     @file.restore_file(params[:restore_id])
 
-    redirect_to :back
+    redirect_back(fallback_location: root_path)
   end
 
   def destroy_file
@@ -38,7 +38,7 @@ class BackupsController < ApplicationController
 
     @file.destroy
 
-    redirect_to :back
+    redirect_back(fallback_location: root_path)
   end
 
   private

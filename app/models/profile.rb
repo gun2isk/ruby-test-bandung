@@ -13,13 +13,6 @@ class Profile < ApplicationRecord
   before_validation :set_dirs
   after_create :run_backup
 
-  def set_dirs
-    self.backup_dirs = self.backup_dirs.to_s.split("\r\n") if not self.backup_dirs.is_a?(Array)
-    self.backup_exclusion_dirs = self.backup_exclusion_dirs.to_s.split("\r\n") if not self.backup_exclusion_dirs.is_a?(Array)
-
-    true
-  end
-
   def run_backup
     backup = self.backups.create(version: self.backups.count + 1, backup_time: Time.now)
 
@@ -62,6 +55,15 @@ class Profile < ApplicationRecord
 
       [range, sprintf("%0.2f", percentage).to_f]
     end
+  end
+
+  private
+
+  def set_dirs
+    self.backup_dirs = self.backup_dirs.to_s.split("\r\n") if not self.backup_dirs.is_a?(Array)
+    self.backup_exclusion_dirs = self.backup_exclusion_dirs.to_s.split("\r\n") if not self.backup_exclusion_dirs.is_a?(Array)
+
+    true
   end
 
 end

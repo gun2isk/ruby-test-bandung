@@ -9,7 +9,7 @@
   = link_to 'Display Charts Statistics', charts_profile_path(@profile), class: 'btn btn-default'
 
 - if not @backup
-  = link_to 'Run New Backup', run_profile_backups_path(@profile), method: :post, class: 'btn btn-primary pull-right'
+  = link_to 'Run New Backup', run_profile_backups_path(@profile), method: :post, class: 'btn btn-primary pull-right', id: 'run-backup'
   br
   br
   br
@@ -18,7 +18,7 @@
   .well
     | Select the backup histories :&nbsp;
     = select_tag 'backup_version', options_from_collection_for_select(@backups, :id, :version_name, selected: @backup.id), data: {target_url: profile_path(@profile, path: @parent_dir_path)}
-    = link_to 'Run New Backup', run_profile_backups_path(@profile), method: :post, class: 'btn btn-primary pull-right'
+    = link_to 'Run New Backup', run_profile_backups_path(@profile), method: :post, class: 'btn btn-primary pull-right', id: 'run-backup'
 
   .well
     h3 Backup Detail
@@ -66,7 +66,7 @@
         td
 
     - @backup_files.each do |backup_file|
-      tr
+      tr id="backup-file-#{backup_file.id}"
         - if backup_file.is_directory?
           td = link_to backup_file.name, profile_path(@profile, path: backup_file.path, backup_id: @backup.id)
           td Directory

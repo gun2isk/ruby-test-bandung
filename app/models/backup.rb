@@ -1,7 +1,7 @@
 require 'mime/types'
 
 class Backup < ApplicationRecord
-  BASE_STORAGE_PATH  = "#{Rails.root}/public/backups"
+  BASE_STORAGE_PATH  = "#{Rails.root}/public/backups/#{Rails.env}"
 
   belongs_to :profile
 

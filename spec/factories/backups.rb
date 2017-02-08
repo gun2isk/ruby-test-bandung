@@ -1,10 +1,15 @@
 FactoryGirl.define do
+  sequence :version do |n|
+    n
+  end
+  
   factory :backup do
-    profile nil
-    version 1
-    backup_time "2017-02-01 15:06:47"
-    file_count 1
-    new_file_count 1
-    modified_file_count 1
+    association :profile
+
+    version { generate(:version) }
+    backup_time Time.now
+    file_count 0
+    new_file_count 0
+    modified_file_count 0
   end
 end

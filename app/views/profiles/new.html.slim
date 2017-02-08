@@ -1,6 +1,6 @@
 h1 New Profile
 
-.col-md-3
+.col-md-6
   - if @profile.errors.any?
     ul
       - @profile.errors.messages.each do |error|
@@ -15,11 +15,28 @@ h1 New Profile
     .form-group
       label Backup Directories
       = f.text_area :backup_dirs, cols: 15, class: 'form-control'
+
+      p.help-block
+        | Separated by new line
+        br
+        br
+        | Example :
+        br
+        | /home/yourname/directory-1
+        br
+        | /home/yourname/directory-2
     
     .form-group
       label Backup Exclusion Directories
       = f.text_area :backup_exclusion_dirs, class: 'form-control'
       
-      p.help-block Please enter relative paths to the "Backup Directories", don't enter full paths
+      p.help-block
+        | Please enter relative paths to the "Backup Directories", don't enter full paths
+        br
+        br
+        | Example : 
+        br
+        | If your backup directory is /home/yourname/directory-1 and you want to exclude child directory under it,&nbsp;
+        | enter "directory-1/secrets/"
 
     = f.submit 'Create Profile', class: 'btn btn-primary'
